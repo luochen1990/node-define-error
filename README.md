@@ -55,7 +55,7 @@ async rpcCall = () => {
 Reference
 ---------
 
-[Tero's answer @stackoverflow](http://stackoverflow.com/questions/1382107/whats-a-good-way-to-extend-error-in-javascript/5251506#5251506)
-[Onur Yıldırım's answer @stackoverflow](https://stackoverflow.com/a/35881508/1608276)
-[customizing-stack-traces @v8-wiki](https://github.com/v8/v8/wiki/Stack-Trace-API#customizing-stack-traces)
+- [Tero's answer @stackoverflow](http://stackoverflow.com/questions/1382107/whats-a-good-way-to-extend-error-in-javascript/5251506#5251506)
+- [Onur Yıldırım's answer @stackoverflow](https://stackoverflow.com/a/35881508/1608276)
+- [customizing-stack-traces @v8-wiki](https://github.com/v8/v8/wiki/Stack-Trace-API#customizing-stack-traces)
 
