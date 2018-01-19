@@ -1,0 +1,27 @@
+{
+  "name": "node-define-error",
+  "version": "0.1.0",
+  "description": "Define Pretty Printed, Nested Custom Errors Easily.",
+  "author": "luochen1990",
+  "license": "MIT",
+  "homepage": "http://github.com/luochen1990/node-define-error",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:luochen1990/node-define-error.git"
+  },
+  "keywords": [
+    "error",
+    "exception",
+    "custom",
+    "pretty",
+    "nested"
+  ],
+  "main": "./lib/define-error.js",
+  "scripts": {
+    "prepublish": "rm -r lib && coffee -o lib -c src && sleep 1"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "coffee-script": "^1.12.7"
+  }
+}
