@@ -9,7 +9,7 @@ showInfo = (fields) ->
 				"  [#{k}]: #{JSON.stringify(info[k])}"
 			).join('\n')
 	else
-		((s) -> s)
+		((s) -> if typeof s is 'object' then JSON.stringify(s) else s)
 
 #simpleFormatter = (error, structuredStackTrace) ->
 #	log.info 'call simpleFormatter', error.info.x
