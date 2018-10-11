@@ -1,10 +1,16 @@
 indent = (text) ->
 	text.split('\n').map((l) -> '  ' + l).join('\n')
 
-showInfo = (fields) ->
-	if fields?
+###
+# Case 1: showInfo : (fields : List String) -> ((info : Object) -> String)
+# Case 2: showInfo : (msgMaker : (info : Object) -> String) -> ((info : Object) -> String)
+###
+showInfo = (msgMaker) ->
+	if typeof msgMaker is 'function'
+		msgMaker
+	else if msgMaker instanceof Array
 		(info) ->
-			'\n' + fields.map((k) ->
+			'\n' + msgMaker.map((k) ->
 				v = info[k]
 				"  [#{k}]: #{JSON.stringify(info[k])}"
 			).join('\n')
@@ -22,8 +28,12 @@ headStackTrace = (e) ->
 	j = s.indexOf('\n', i+8) # 8 is length of the above string
 	return s[..j]
 
-defineError = (errorName, fields) ->
-	msg = showInfo(fields)
+###
+# Usage 1: defineError(errorName : String, fields : List String)
+# Usage 2: defineError(errorName : String, msgMaker : (info : Object) -> String)
+###
+defineError = (errorName, msgMaker) ->
+	msg = showInfo(msgMaker)
 	`
 	function CustomError(info, cause) {
 		Error.captureStackTrace(this, CustomError);
