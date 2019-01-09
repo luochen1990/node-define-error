@@ -41,8 +41,7 @@ defineError = (errorName, msgMaker) ->
 		} else {
 			Object.defineProperty(this, 'stack', {
 				enumerable: false,
-				writable: false,
-				value: (new Error(message)).stack
+				get: function(){return (new Error(this.name + ": " + this.message)).stack}
 			});
 		}
 
