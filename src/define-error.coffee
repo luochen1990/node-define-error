@@ -36,7 +36,16 @@ defineError = (errorName, msgMaker) ->
 	msg = showInfo(msgMaker)
 	`
 	function CustomError(info, cause) {
-		Error.captureStackTrace(this, CustomError);
+		if (Error.captureStackTrace) {
+			Error.captureStackTrace(this, CustomError);
+		} else {
+			Object.defineProperty(this, 'stack', {
+				enumerable: false,
+				writable: false,
+				value: (new Error(message)).stack
+			});
+		}
+
 		Object.defineProperties(this, {
 			'name': {enumerable: true, writable: false, value: errorName},
 			'message': {enumerable: false, get: function(){ //the parts with stacktrace is not enumerable
@@ -54,6 +63,28 @@ defineError = (errorName, msgMaker) ->
 module.exports = defineError
 
 if module.parent is null
+	# test
+	{log} = require ('coffee-mate')
+	MyError = defineError('MyError', () -> "my error occurs")
+	try
+		throw new MyError()
+	catch e
+		log -> e
+		log -> e.name
+		log -> e.constructor.name
+		log -> e.constructor.name == e.name
+		log -> e.message == "my error occurs"
+		log -> typeof e == "object"
+		log -> typeof MyError == "function"
+		log -> Object.getPrototypeOf(e) == Error.prototype
+		log -> Object.getPrototypeOf(e) == MyError.prototype
+		log -> e instanceof Error
+		log -> e instanceof MyError
+		log -> typeof e.toString is 'function' and e.toString().indexOf(e.name) >= 0
+		log -> e.stack.indexOf(e.name) >= 0
+		log -> e.stack.indexOf(e.message) >= 0
+
+	# nested error demo
 	MyAdvError = defineError('MyAdvError', ['f', 'msg'])
 	#f0 = -> throw new MyAdvError({f: 'f0', msg: 'the inner custom error'})
 	f0 = -> throw new Error('the inner custom error')
